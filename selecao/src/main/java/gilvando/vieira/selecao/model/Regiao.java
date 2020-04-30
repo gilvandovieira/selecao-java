@@ -20,6 +20,10 @@ public class Regiao {
     @OneToMany(mappedBy = "regiao")
     private List<Revenda> revendas;
 
+    public List<Revenda> getRevendas() {
+        return revendas;
+    }
+
     public Regiao() {
     }
 
