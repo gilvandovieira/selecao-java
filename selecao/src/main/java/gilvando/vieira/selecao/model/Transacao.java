@@ -3,6 +3,7 @@ package gilvando.vieira.selecao.model;
 import com.google.common.base.Objects;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -18,9 +19,7 @@ public class Transacao {
     private Double valorVenda;
     private Double valorCompra;
     private String unidadeDeMedida;
-
-    @Temporal(value = TemporalType.DATE)
-    private Date dataDaColeta;
+    private LocalDate dataDaColeta;
 
     @ManyToOne
     @JoinColumn(name = "revenda_id")
@@ -37,7 +36,7 @@ public class Transacao {
     public Transacao() {
     }
 
-    public Transacao(String bandeira, Double valorVenda, Double valorCompra, String unidadeDeMedida, Date dataDaColeta) {
+    public Transacao(String bandeira, Double valorVenda, Double valorCompra, String unidadeDeMedida, LocalDate dataDaColeta) {
         this.bandeira = bandeira;
         this.valorVenda = valorVenda;
         this.valorCompra = valorCompra;
@@ -45,7 +44,7 @@ public class Transacao {
         this.dataDaColeta = dataDaColeta;
     }
 
-    public Transacao(Long id, String bandeira, Double valorVenda, Double valorCompra, String unidadeDeMedida, Date dataDaColeta) {
+    public Transacao(Long id, String bandeira, Double valorVenda, Double valorCompra, String unidadeDeMedida, LocalDate dataDaColeta) {
         this.id = id;
         this.bandeira = bandeira;
         this.valorVenda = valorVenda;
@@ -94,11 +93,11 @@ public class Transacao {
         this.unidadeDeMedida = unidadeDeMedida;
     }
 
-    public Date getDataDaColeta() {
+    public LocalDate getDataDaColeta() {
         return dataDaColeta;
     }
 
-    public void setDataDaColeta(Date dataDaColeta) {
+    public void setDataDaColeta(LocalDate dataDaColeta) {
         this.dataDaColeta = dataDaColeta;
     }
 

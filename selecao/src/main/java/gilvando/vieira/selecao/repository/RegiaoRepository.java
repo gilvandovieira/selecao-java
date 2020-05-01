@@ -13,5 +13,5 @@ import java.util.List;
 public interface RegiaoRepository extends CrudRepository<Regiao, Long>, RegiaoRepositoryCustom {
 
     Regiao findByMunicipioAndSiglaEstado(String municipio, String siglaEstado);
-    List<Regiao> finAllBySiglaRegiao(String siglaRegiao);
+    List<Regiao> findAllBySiglaRegiao(String siglaRegiao);
 }

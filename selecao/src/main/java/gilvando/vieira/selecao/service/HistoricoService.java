@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface HistoricoService {
 
-    void novoDadoHistorico(Historico historico);
+    Historico novoDadoHistorico(Historico historico);
 
-    void atualizaDadoHistorico(Historico historico);
+    void atualizaDadoHistorico(Historico historico, Long id);
 
-    void deletaHistorico(Historico historico);
+    void deletaHistorico(Long id);
 
     List<Historico> listaHistorico();
 

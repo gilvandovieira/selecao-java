@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @RunWith(SpringRunner.class)
@@ -45,10 +46,10 @@ public class RegiaoRepositoryTests {
         historico.setMunicipio("BRASILIA");
         historico.setNomeRevenda("ABRITTA POSTOS DE SERVIÇOS LTDA");
         historico.setCNPJ("10668863000195");
-        historico.setDataDacoleta(new Date());
+        historico.setDataDaColeta("01/02/1990");
         historico.setProduto("DIESEL");
-        historico.setValorDeVenda(3.799);
-        historico.setValorDeCompra(3.2166);
+        historico.setValorDeVenda(Double.toString(3.799));
+        historico.setValorDeCompra(Double.toString(3.2166));
         historico.setUnidadeDeMedida("R$ / litro");
         historico.setBandeira("RAIZEN");
         historicoService.novoDadoHistorico(historico);

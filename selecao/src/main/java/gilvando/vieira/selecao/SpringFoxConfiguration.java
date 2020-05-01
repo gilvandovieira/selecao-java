@@ -14,7 +14,7 @@ public class SpringFoxConfiguration {
 
     @Bean
     public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any()).build();
+        return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.basePackage("gilvando.vieira.selecao.controller")).build();
     }
 
 }

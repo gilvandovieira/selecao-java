@@ -10,6 +10,8 @@ import gilvando.vieira.selecao.repository.TransacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -36,7 +38,8 @@ public class HistoricoServiceImpl implements HistoricoService {
     }
 
     @Override
-    public void novoDadoHistorico(Historico historico) {
+    public Historico novoDadoHistorico(Historico historico) {
+        System.out.println(historico);
         Regiao regiao = regiaoRepository.findByMunicipioAndSiglaEstado(historico.getMunicipio(), historico.getSiglaEstado());
         if (regiao == null){
             regiao = regiaoRepository.save(new Regiao(historico.getSiglaRegiao(), historico.getSiglaEstado(), historico.getMunicipio()));
@@ -49,26 +52,26 @@ public class HistoricoServiceImpl implements HistoricoService {
             revendaRepository.save(r);
         }
 
-        Transacao transacao = new Transacao(historico.getBandeira(),historico.getValorDeVenda(), historico.getValorDeCompra(),historico.getUnidadeDeMedida(),historico.getDataDacoleta());
+        Transacao transacao = new Transacao(historico.getBandeira(), Double.valueOf(historico.getValorDeVenda()), Double.valueOf(historico.getValorDeCompra()),historico.getUnidadeDeMedida(), LocalDate.now());
         transacao.setRevenda(r);
         transacaoRepository.save(transacao);
-
+        return historico;
     }
 
     @Override
-    public void atualizaDadoHistorico(Historico historico) {
-        Transacao transacao = transacaoRepository.findById(historico.getTransacao()).get();
-        transacao.setBandeira(historico.getBandeira());
-        transacao.setDataDaColeta(historico.getDataDacoleta());
-        transacao.setValorVenda(historico.getValorDeVenda());
-        transacao.setValorCompra(historico.getValorDeCompra());
-        transacao.setUnidadeDeMedida(historico.getUnidadeDeMedida());
-        transacaoRepository.save(transacao);
+    public void atualizaDadoHistorico(Historico historico, Long id) {
+//        Transacao transacao = transacaoRepository.findById(id).get();
+//        transacao.setBandeira(historico.getBandeira());
+//        transacao.setDataDaColeta(historico.getDataDaColeta());
+//        transacao.setValorVenda(historico.getValorDeVenda());
+//        transacao.setValorCompra(historico.getValorDeCompra());
+//        transacao.setUnidadeDeMedida(historico.getUnidadeDeMedida());
+//        transacaoRepository.save(transacao);
     }
 
     @Override
-    public void deletaHistorico(Historico historico) {
-        transacaoRepository.deleteById(historico.getTransacao());
+    public void deletaHistorico(Long id) {
+//        transacaoRepository.deleteById(historico.getTransacao());
     }
 
     @Override
@@ -83,7 +86,7 @@ public class HistoricoServiceImpl implements HistoricoService {
 
     @Override
     public List<Historico> listaHistoricoPorSiglaRegiao(String siglaRegiao) {
-        List<Regiao> regioes = regiaoRepository.finAllBySiglaRegiao(siglaRegiao);
+        List<Regiao> regioes = regiaoRepository.findAllBySiglaRegiao(siglaRegiao);
         List<Historico> historicos = new LinkedList<>();
 
         for(Regiao r: regioes){
@@ -129,9 +132,9 @@ public class HistoricoServiceImpl implements HistoricoService {
         historico.setNomeRevenda(transacao.getRevenda().getNome());
         historico.setCNPJ(transacao.getRevenda().getCNPJ());
         historico.setProduto(transacao.getProduto());
-        historico.setDataDacoleta(transacao.getDataDaColeta());
-        historico.setValorDeVenda(transacao.getValorVenda());
-        historico.setValorDeCompra(transacao.getValorCompra());
+        historico.setDataDaColeta(transacao.getDataDaColeta().toString());
+        historico.setValorDeVenda(transacao.getValorVenda().toString());
+        historico.setValorDeCompra(transacao.getValorCompra().toString());
         historico.setBandeira(transacao.getBandeira());
         historicos.add(historico);
     }

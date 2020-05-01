@@ -1,28 +1,49 @@
 package gilvando.vieira.selecao.model;
 
+import com.opencsv.bean.CsvBindByName;
+
 import java.util.Date;
 
 public class Historico {
 
+    @CsvBindByName(column = "Região - Sigla", required = false)
     private String siglaRegiao;
+    @CsvBindByName(column = "Estado - Sigla", required = false)
     private String siglaEstado;
+    @CsvBindByName(column = "Município", required = false)
     private String municipio;
+    @CsvBindByName(column = "Revenda", required = false)
     private String nomeRevenda;
+    @CsvBindByName(column = "CNPJ da Revenda", required = false)
     private String CNPJ;
+    @CsvBindByName(column = "Produto", required = false)
     private String produto;
-    private Date dataDacoleta;
-    private Double valorDeVenda;
-    private Double valorDeCompra;
+    @CsvBindByName(column = "Data da Coleta", required = false)
+    private String dataDaColeta;
+    @CsvBindByName(column = "Valor da Venda", required = false)
+    private String valorDeVenda;
+    @CsvBindByName(column = "Valor de Compra", required = false)
+    private String valorDeCompra;
+    @CsvBindByName(column = "Unidade de Medida", required = false)
     private String unidadeDeMedida;
+    @CsvBindByName(column = "Bandeira", required = false)
     private String bandeira;
-    private Long transacao;
 
-    public Long getTransacao() {
-        return transacao;
-    }
-
-    public void setTransacao(Long transacao) {
-        this.transacao = transacao;
+    @Override
+    public String toString() {
+        return "Historico{" +
+                "siglaRegiao='" + siglaRegiao + '\'' +
+                ", siglaEstado='" + siglaEstado + '\'' +
+                ", municipio='" + municipio + '\'' +
+                ", nomeRevenda='" + nomeRevenda + '\'' +
+                ", CNPJ='" + CNPJ + '\'' +
+                ", produto='" + produto + '\'' +
+                ", dataDacoleta='" + dataDaColeta + '\'' +
+                ", valorDeVenda='" + valorDeVenda + '\'' +
+                ", valorDeCompra='" + valorDeCompra + '\'' +
+                ", unidadeDeMedida='" + unidadeDeMedida + '\'' +
+                ", bandeira='" + bandeira + '\'' +
+                '}';
     }
 
     public String getSiglaRegiao() {
@@ -73,27 +94,27 @@ public class Historico {
         this.produto = produto;
     }
 
-    public Date getDataDacoleta() {
-        return dataDacoleta;
+    public String getDataDaColeta() {
+        return dataDaColeta;
     }
 
-    public void setDataDacoleta(Date dataDacoleta) {
-        this.dataDacoleta = dataDacoleta;
+    public void setDataDaColeta(String dataDacoleta) {
+        this.dataDaColeta = dataDacoleta;
     }
 
-    public Double getValorDeVenda() {
+    public String getValorDeVenda() {
         return valorDeVenda;
     }
 
-    public void setValorDeVenda(Double valorDeVenda) {
+    public void setValorDeVenda(String valorDeVenda) {
         this.valorDeVenda = valorDeVenda;
     }
 
-    public Double getValorDeCompra() {
+    public String getValorDeCompra() {
         return valorDeCompra;
     }
 
-    public void setValorDeCompra(Double valorDeCompra) {
+    public void setValorDeCompra(String valorDeCompra) {
         this.valorDeCompra = valorDeCompra;
     }
 
