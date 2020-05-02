@@ -12,6 +12,7 @@ import java.util.List;
 @Repository
 public interface RegiaoRepository extends CrudRepository<Regiao, Long>, RegiaoRepositoryCustom {
 
+    List<Regiao> findAll();
     Regiao findByMunicipioAndSiglaEstado(String municipio, String siglaEstado);
     List<Regiao> findAllBySiglaRegiao(String siglaRegiao);
 }

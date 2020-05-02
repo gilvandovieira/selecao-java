@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Reader;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -29,8 +29,6 @@ public class HistoricoController {
     criaHistorico(@RequestBody Historico historico) {
         historicoService.novoDadoHistorico(historico);
         return historico;
-
-
     }
 
     @PostMapping(produces = "application/json", path = "/csv")
@@ -53,5 +51,23 @@ public class HistoricoController {
             }
         }
         return null;
+    }
+
+    @GetMapping(produces = "application/json", path = "/sigla/{sigla}")
+    public @ResponseBody List<Historico> listaHistoricoPorSiglaRegiao(@PathVariable("sigla") String sigla){
+
+        return historicoService.listaHistoricoPorSiglaRegiao(sigla);
+    }
+
+    @GetMapping(produces = "application/json", path = "/distribuidora/{distribuidora}")
+    public @ResponseBody List<Historico> listaHistoricoPorDistribuidora(@PathVariable("distribuidora") String distribuidora){
+
+        return historicoService.listaHistoricoPorDistribuidora(distribuidora);
+    }
+
+    @GetMapping(produces = "application/json", path = "/data-coleta")
+    public @ResponseBody List<Historico> listaHistoricoPorDataColeta(@RequestParam("data")LocalDate data){
+
+        return historicoService.listaHistoricoPorDataDaColeta(data);
     }
 }

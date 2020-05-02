@@ -1,7 +1,7 @@
 package gilvando.vieira.selecao.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class MediaPorMunicipio {
@@ -9,15 +9,37 @@ public class MediaPorMunicipio {
     @Id
     private String municipio;
 
-    private Double mediaCompra;
+    private String produto;
+
     private Double mediaVenda;
 
-    public String getMunicipio() {
-        return municipio;
+    private Double mediaCompra;
+
+
+    @Override
+    public String toString() {
+        return "MediaPorMunicipio{" +
+                "municipio='" + municipio + '\'' +
+                ", produto='" + produto + '\'' +
+                ", mediaVenda=" + mediaVenda +
+                ", mediaCompra=" + mediaCompra +
+                '}';
     }
 
-    public void setMunicipio(String municipio) {
-        this.municipio = municipio;
+    public String getProduto() {
+        return produto;
+    }
+
+    public void setProduto(String produto) {
+        this.produto = produto;
+    }
+
+    public Double getMediaVenda() {
+        return mediaVenda;
+    }
+
+    public void setMediaVenda(Double mediaVenda) {
+        this.mediaVenda = mediaVenda;
     }
 
     public Double getMediaCompra() {
@@ -28,11 +50,13 @@ public class MediaPorMunicipio {
         this.mediaCompra = mediaCompra;
     }
 
-    public Double getMediaVenda() {
-        return mediaVenda;
+    public String getMunicipio() {
+        return municipio;
     }
 
-    public void setMediaVenda(Double mediaVenda) {
-        this.mediaVenda = mediaVenda;
+    public void setMunicipio(String municipio) {
+        this.municipio = municipio;
     }
+
+
 }

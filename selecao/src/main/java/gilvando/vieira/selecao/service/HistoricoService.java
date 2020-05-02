@@ -2,7 +2,7 @@ package gilvando.vieira.selecao.service;
 
 import gilvando.vieira.selecao.model.Historico;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface HistoricoService {
@@ -19,5 +19,5 @@ public interface HistoricoService {
 
     List<Historico> listaHistoricoPorDistribuidora(String nome);
 
-    List<Historico> listaHistoricoPorDataDaColeta(Date date);
+    List<Historico> listaHistoricoPorDataDaColeta(LocalDate date);
 }

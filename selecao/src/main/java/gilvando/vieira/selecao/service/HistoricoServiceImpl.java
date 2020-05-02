@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -39,20 +37,20 @@ public class HistoricoServiceImpl implements HistoricoService {
 
     @Override
     public Historico novoDadoHistorico(Historico historico) {
-        System.out.println(historico);
+        //System.out.println(historico);
         Regiao regiao = regiaoRepository.findByMunicipioAndSiglaEstado(historico.getMunicipio(), historico.getSiglaEstado());
-        if (regiao == null){
+        if (regiao == null) {
             regiao = regiaoRepository.save(new Regiao(historico.getSiglaRegiao(), historico.getSiglaEstado(), historico.getMunicipio()));
         }
         Revenda r = null;
         Revenda revenda = revendaRepository.findByCNPJ(historico.getCNPJ());
-        if(revenda == null){
-             r = new Revenda(historico.getNomeRevenda(), historico.getCNPJ());
+        if (revenda == null) {
+            r = new Revenda(historico.getNomeRevenda(), historico.getCNPJ());
             r.setRegiao(regiao);
             revendaRepository.save(r);
         }
 
-        Transacao transacao = new Transacao(historico.getBandeira(), Double.valueOf(historico.getValorDeVenda()), Double.valueOf(historico.getValorDeCompra()),historico.getUnidadeDeMedida(), LocalDate.now());
+        Transacao transacao = new Transacao(historico.getBandeira(), Double.valueOf(historico.getValorDeVenda()), Double.valueOf(historico.getValorDeCompra()), historico.getUnidadeDeMedida(), LocalDate.now(), historico.getProduto());
         transacao.setRevenda(r);
         transacaoRepository.save(transacao);
         return historico;
@@ -60,18 +58,19 @@ public class HistoricoServiceImpl implements HistoricoService {
 
     @Override
     public void atualizaDadoHistorico(Historico historico, Long id) {
-//        Transacao transacao = transacaoRepository.findById(id).get();
-//        transacao.setBandeira(historico.getBandeira());
-//        transacao.setDataDaColeta(historico.getDataDaColeta());
-//        transacao.setValorVenda(historico.getValorDeVenda());
-//        transacao.setValorCompra(historico.getValorDeCompra());
-//        transacao.setUnidadeDeMedida(historico.getUnidadeDeMedida());
-//        transacaoRepository.save(transacao);
+        Transacao transacao = transacaoRepository.findById(id).get();
+        transacao.setBandeira(historico.getBandeira());
+        transacao.setDataDaColeta(LocalDate.now());
+        transacao.setValorVenda(Double.valueOf(historico.getValorDeVenda()));
+        transacao.setValorCompra(Double.valueOf(historico.getValorDeCompra()));
+        transacao.setUnidadeDeMedida(historico.getUnidadeDeMedida());
+        transacaoRepository.save(transacao);
+
     }
 
     @Override
     public void deletaHistorico(Long id) {
-//        transacaoRepository.deleteById(historico.getTransacao());
+        transacaoRepository.deleteById(id);
     }
 
     @Override
@@ -89,9 +88,9 @@ public class HistoricoServiceImpl implements HistoricoService {
         List<Regiao> regioes = regiaoRepository.findAllBySiglaRegiao(siglaRegiao);
         List<Historico> historicos = new LinkedList<>();
 
-        for(Regiao r: regioes){
-            for(Revenda revenda: r.getRevendas()){
-                for (Transacao transacao: revenda.getTransacoes()){
+        for (Regiao r : regioes) {
+            for (Revenda revenda : r.getRevendas()) {
+                for (Transacao transacao : revenda.getTransacoes()) {
                     appendHistorico(historicos, transacao);
                 }
             }
@@ -105,21 +104,21 @@ public class HistoricoServiceImpl implements HistoricoService {
         List<Revenda> revendas = revendaRepository.findAllByNome(nome);
         List<Historico> historicos = new LinkedList<>();
 
-        for (Revenda revenda: revendas){
-            for(Transacao transacao: revenda.getTransacoes()){
-                appendHistorico(historicos,transacao);
+        for (Revenda revenda : revendas) {
+            for (Transacao transacao : revenda.getTransacoes()) {
+                appendHistorico(historicos, transacao);
             }
         }
         return historicos;
     }
 
     @Override
-    public List<Historico> listaHistoricoPorDataDaColeta(Date date) {
+    public List<Historico> listaHistoricoPorDataDaColeta(LocalDate date) {
         List<Transacao> transacoes = transacaoRepository.findAllByDataDaColeta(date);
         List<Historico> historicos = new LinkedList<>();
 
-        for(Transacao transacao: transacoes){
-            appendHistorico(historicos,transacao);
+        for (Transacao transacao : transacoes) {
+            appendHistorico(historicos, transacao);
         }
         return historicos;
     }

@@ -36,21 +36,23 @@ public class Transacao {
     public Transacao() {
     }
 
-    public Transacao(String bandeira, Double valorVenda, Double valorCompra, String unidadeDeMedida, LocalDate dataDaColeta) {
+    public Transacao(String bandeira, Double valorVenda, Double valorCompra, String unidadeDeMedida, LocalDate dataDaColeta, String produto) {
         this.bandeira = bandeira;
         this.valorVenda = valorVenda;
         this.valorCompra = valorCompra;
         this.unidadeDeMedida = unidadeDeMedida;
         this.dataDaColeta = dataDaColeta;
+        this.produto = produto;
     }
 
-    public Transacao(Long id, String bandeira, Double valorVenda, Double valorCompra, String unidadeDeMedida, LocalDate dataDaColeta) {
+    public Transacao(Long id, String bandeira, Double valorVenda, Double valorCompra, String unidadeDeMedida, LocalDate dataDaColeta, String produto) {
         this.id = id;
         this.bandeira = bandeira;
         this.valorVenda = valorVenda;
         this.valorCompra = valorCompra;
         this.unidadeDeMedida = unidadeDeMedida;
         this.dataDaColeta = dataDaColeta;
+        this.produto = produto;
     }
 
     public Long getId() {
@@ -120,12 +122,13 @@ public class Transacao {
                 Objects.equal(valorVenda, transacao.valorVenda) &&
                 Objects.equal(valorCompra, transacao.valorCompra) &&
                 Objects.equal(unidadeDeMedida, transacao.unidadeDeMedida) &&
-                Objects.equal(dataDaColeta, transacao.dataDaColeta);
+                Objects.equal(dataDaColeta, transacao.dataDaColeta) &&
+                Objects.equal(revenda, transacao.revenda);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, bandeira, produto, valorVenda, valorCompra, unidadeDeMedida, dataDaColeta);
+        return Objects.hashCode(id, bandeira, produto, valorVenda, valorCompra, unidadeDeMedida, dataDaColeta, revenda);
     }
 
     @Override
@@ -138,6 +141,7 @@ public class Transacao {
                 ", valorCompra=" + valorCompra +
                 ", unidadeDeMedida='" + unidadeDeMedida + '\'' +
                 ", dataDaColeta=" + dataDaColeta +
+                ", revenda=" + revenda +
                 '}';
     }
 }

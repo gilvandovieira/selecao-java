@@ -14,8 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalDate;
-import java.util.Date;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -53,11 +52,18 @@ public class RegiaoRepositoryTests {
         historico.setUnidadeDeMedida("R$ / litro");
         historico.setBandeira("RAIZEN");
         historicoService.novoDadoHistorico(historico);
+        historico.setProduto("GASOLINA");
+        historico.setValorDeCompra(Double.toString(3.333));
+        historico.setValorDeVenda(Double.toString(2.222));
+        historicoService.novoDadoHistorico(historico);
+        historico.setValorDeCompra(Double.toString(13.333));
+        historico.setValorDeVenda(Double.toString(21.222));
+        historicoService.novoDadoHistorico(historico);
 
-        MediaPorMunicipio mediaPorMunicipio = regiaoRepository.getMediaPorMunicipio("BRASILIA");
-        System.out.println(mediaPorMunicipio.getMunicipio());
-        System.out.println(mediaPorMunicipio.getMediaCompra());
-        System.out.println(mediaPorMunicipio.getMediaVenda());
+        List<MediaPorMunicipio> mediaPorMunicipio = regiaoRepository.getMediaPorMunicipio();
+        System.out.println(mediaPorMunicipio);
+
+
     }
 
 }
