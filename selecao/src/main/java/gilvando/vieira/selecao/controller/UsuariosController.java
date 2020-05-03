@@ -8,31 +8,31 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+//@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(path = "/api/usuarios")
 public class UsuariosController {
 
     private final UsuarioService usuarioService;
 
-    public UsuariosController(UsuarioService usuarioService){
+    public UsuariosController(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
     }
 
-    @PostMapping(consumes = "application/json", produces = "application/json")
-    public Usuario criaUsuario(@RequestBody Usuario usuario){
+    @PostMapping(produces = "application/json")
+    public Usuario criaUsuario(@RequestBody Usuario usuario) {
 
-        this.usuarioService.criaUsuario(usuario.getNome(),usuario.getEmail());
-        return this.usuarioService.usuarioPorEmail(usuario.getEmail());
+        return this.usuarioService.criaUsuario(usuario.getNome(), usuario.getEmail());
+
     }
 
-    @GetMapping
-    public @ResponseBody
-    List<Usuario> listaUsuarios(){
+    @GetMapping(produces = "application/json")
+    public List<Usuario> listaUsuarios() {
 
         return this.usuarioService.todosUsuario();
     }
 
     @DeleteMapping(path = "/{id}")
-    public void deletaUsuario(@PathVariable("id") Long id){
+    public void deletaUsuario(@PathVariable("id") Long id) {
 
         this.usuarioService.deletaUsuario(id);
     }

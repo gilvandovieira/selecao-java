@@ -60,7 +60,7 @@ public class RegiaoRepositoryTests {
         historico.setValorDeVenda(Double.toString(21.222));
         historicoService.novoDadoHistorico(historico);
 
-        List<MediaPorMunicipio> mediaPorMunicipio = regiaoRepository.getMediaPorMunicipio();
+        List<MediaPorMunicipio> mediaPorMunicipio = regiaoRepository.listMediaPorMunicipio();
         System.out.println(mediaPorMunicipio);
 
 

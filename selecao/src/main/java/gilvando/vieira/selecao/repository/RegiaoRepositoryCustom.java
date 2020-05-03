@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface RegiaoRepositoryCustom {
 
-    List<MediaPorMunicipio> getMediaPorMunicipio();
-
+    List<MediaPorMunicipio> listMediaPorMunicipio();
+    List<MediaPorMunicipio> getMediaPorMunicipio(String municipio);
+    List<String> findAllSiglas();
+    List<String> findAllMunicipios();
 }

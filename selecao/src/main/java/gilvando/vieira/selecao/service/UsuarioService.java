@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface UsuarioService {
 
-    void criaUsuario(String nome, String email);
+    Usuario criaUsuario(String nome, String email);
     List<Usuario> usuarioPorNome(String nome);
     Usuario usuarioPorEmail(String email);
     List<Usuario> todosUsuario();

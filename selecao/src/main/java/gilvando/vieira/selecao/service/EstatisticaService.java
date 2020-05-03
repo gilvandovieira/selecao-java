@@ -10,4 +10,6 @@ public interface EstatisticaService {
     List<MediaPorMunicipio> listaValorMedioPorMunicipio();
 
     List<MediaPorBandeira> listaValorMedioPorBandeira();
+
+    List<MediaPorMunicipio> getValorMedioPorMunicipio(String municipio);
 }

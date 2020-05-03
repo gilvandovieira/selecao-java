@@ -38,7 +38,7 @@ public class HistoricoServiceImpl implements HistoricoService {
 
     @Override
     public Historico novoDadoHistorico(Historico historico) {
-        System.out.println(historico);
+        //System.out.println(historico);
         if (historico.getValorDeVenda() == null || historico.getValorDeVenda().isEmpty()) {
             historico.setValorDeVenda("0.000");
         }

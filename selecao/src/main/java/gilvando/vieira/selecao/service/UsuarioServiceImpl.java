@@ -17,8 +17,8 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public void criaUsuario(String nome, String email) {
-        ur.save(new Usuario(nome,email));
+    public Usuario criaUsuario(String nome, String email) {
+       return ur.save(new Usuario(nome,email));
     }
 
     @Override
@@ -35,7 +35,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public List<Usuario> todosUsuario() {
-        List<Usuario> usuarios = (List<Usuario>) ur.findAll();
+        List<Usuario> usuarios =  ur.findAll();
 
         return usuarios;
     }

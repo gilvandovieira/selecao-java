@@ -1,9 +1,7 @@
 package gilvando.vieira.selecao.controller;
 
-import com.opencsv.CSVReader;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
-import com.opencsv.enums.CSVReaderNullFieldIndicator;
 import gilvando.vieira.selecao.model.Historico;
 import gilvando.vieira.selecao.service.HistoricoService;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
+//@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(path = "/api/historico")
 public class HistoricoController {
 
@@ -28,8 +27,7 @@ public class HistoricoController {
     }
 
     @PostMapping(consumes = "application/json", produces = "application/json")
-    public @ResponseBody
-    Historico
+    public Historico
     criaHistorico(@RequestBody Historico historico) {
         historicoService.novoDadoHistorico(historico);
         return historico;
@@ -50,7 +48,7 @@ public class HistoricoController {
 //                    historicoService.novoDadoHistorico(historico);
 //                }
                 historicos.stream().parallel().forEach(historico -> historicoService.novoDadoHistorico(historico));
-                return historicos.subList(0,10);
+                return historicos.subList(0, 10);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -59,19 +57,22 @@ public class HistoricoController {
     }
 
     @GetMapping(produces = "application/json", path = "/sigla/{sigla}")
-    public @ResponseBody List<Historico> listaHistoricoPorSiglaRegiao(@PathVariable String sigla){
+    public @ResponseBody
+    List<Historico> listaHistoricoPorSiglaRegiao(@PathVariable String sigla) {
 
         return historicoService.listaHistoricoPorSiglaRegiao(sigla);
     }
 
     @GetMapping(produces = "application/json", path = "/distribuidora/{distribuidora}")
-    public @ResponseBody List<Historico> listaHistoricoPorDistribuidora(@PathVariable String distribuidora){
+    public @ResponseBody
+    List<Historico> listaHistoricoPorDistribuidora(@PathVariable String distribuidora) {
 
         return historicoService.listaHistoricoPorDistribuidora(distribuidora);
     }
 
     @GetMapping(produces = "application/json", path = "/data-coleta")
-    public @ResponseBody List<Historico> listaHistoricoPorDataColeta(@RequestParam("data")String data){
+    public @ResponseBody
+    List<Historico> listaHistoricoPorDataColeta(@RequestParam("data") String data) {
         LocalDate localDate = LocalDate.parse(data, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         return historicoService.listaHistoricoPorDataDaColeta(localDate);
     }

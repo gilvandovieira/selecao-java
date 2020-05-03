@@ -4,13 +4,12 @@ import gilvando.vieira.selecao.model.MediaPorBandeira;
 import gilvando.vieira.selecao.model.MediaPorMunicipio;
 import gilvando.vieira.selecao.service.EstatisticaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+//@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api/estatiscas")
 public class EstatisticaController {
 
@@ -26,9 +25,14 @@ public class EstatisticaController {
 
 
     @GetMapping(path = "/media-municipios", produces = "application/json")
-    public List<MediaPorMunicipio> getMediaPrecoCombustivelPorMunicipio(){
+    public List<MediaPorMunicipio> listaMediaPrecoCombustivelPorMunicipio(){
         return estatisticaService.listaValorMedioPorMunicipio();
 
+    }
+
+    @GetMapping(path = "/media-municipio/{municipio}", produces = "application/json")
+    public List<MediaPorMunicipio> getMediaPrecoCombustivelPorMunicipio(@PathVariable String municipio){
+        return estatisticaService.getValorMedioPorMunicipio(municipio);
     }
 
     @GetMapping(path = "/media-bandeira", produces = "application/json")

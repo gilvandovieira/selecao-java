@@ -24,13 +24,16 @@ public class EstatisticaServiceImpl implements EstatisticaService {
 
     @Override
     public List<MediaPorMunicipio> listaValorMedioPorMunicipio() {
-        return regiaoRepository.getMediaPorMunicipio();
+        return regiaoRepository.listMediaPorMunicipio();
     }
 
     @Override
     public List<MediaPorBandeira> listaValorMedioPorBandeira() {
-
         return transacaoRepository.getMediaPorBandeira();
+    }
 
+    @Override
+    public List<MediaPorMunicipio> getValorMedioPorMunicipio(String municipio) {
+        return regiaoRepository.getMediaPorMunicipio(municipio);
     }
 }

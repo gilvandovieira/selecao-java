@@ -1,0 +1,511 @@
+<div>
+  <mat-card class="card-options">
+    <mat-card-title>Importa arquivo csv</mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="arquivoCsv" (ngSubmit)="onCsvSubmit()">
+        <div>
+          <input type="file" name="arquivo" (change)="onFileSelect($event)" />
+        </div>
+        <div>
+          <input type="submit" />
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="card-options">
+    <mat-card-title>Criar usuario</mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="usuarioForm" (ngSubmit)="onNovoUsuarioSubmit()">
+        <div>
+          <mat-label>Nome do usuário</mat-label>
+          <input
+            matInput
+            placeholder="John Smith"
+            [formControl]="nomeUsuarioControl"
+          />
+        </div>
+        <div>
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            placeholder="email@example.com"
+            [formControl]="emailUsuarioControl"
+          />
+        </div>
+        <input mat-button color="primary" type="submit" />
+      </form>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="card-options">
+    <mat-card-header>
+      <mat-card-title>
+        Lista de usuarios
+      </mat-card-title>
+      <mat-card-subtitle>
+        <button mat-button color="primary" (click)="onUsuarioAtualiza()">
+          Atualiza
+        </button>
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <table mat-table [dataSource]="usuarios" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>Id</th>
+          <td mat-cell *matCellDef="let usuario">{{usuario.id}}</td>
+        </ng-container>
+        <ng-container matColumnDef="nome">
+          <th mat-header-cell *matHeaderCellDef>Nome</th>
+          <td mat-cell *matCellDef="let usuario">{{usuario.nome}}</td>
+        </ng-container>
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let usuario">{{usuario.email}}</td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="usuariosColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: usuariosColumns;"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="card-options">
+    <mat-card-header>
+      <mat-card-title>Novo dado histórico</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form
+        [formGroup]="historicoForm"
+        (ngSubmit)="onNovoDadoHistorico()"
+        class="example-form"
+      >
+        <div class="example-full-width">
+          <mat-label>Regiao</mat-label>
+          <input
+            matInput
+            placeholder="CO | NE | N | S | SE"
+            [formControl]="siglaRegiao"
+          />
+        </div>
+        <div>
+          <mat-label>Estado</mat-label>
+          <input matInput placeholder="Ex: DF" [formControl]="siglaEstado" />
+        </div>
+        <div>
+          <mat-label>Municipio</mat-label>
+          <input matInput placeholder="BRASILIA" [formControl]="municipio" />
+        </div>
+        <div>
+          <mat-label>Nome da revenda</mat-label>
+          <input
+            matInput
+            placeholder="Nome da revenda"
+            [formControl]="nomeRevenda"
+          />
+        </div>
+        <div>
+          <mat-label>CNPJ</mat-label>
+          <input matInput placeholder="CNPJ" [formControl]="CNPJ" />
+        </div>
+        <div>
+          <mat-label>Produto</mat-label>
+          <input
+            matInput
+            placeholder="DIESEL | GASOLINA ..."
+            [formControl]="produto"
+          />
+        </div>
+        <div>
+          <mat-label>Data da coleta</mat-label>
+          <input
+            matInput
+            type="date"
+            placeholder="01/01/1990"
+            [formControl]="dataDaColeta"
+          />
+        </div>
+        <div>
+          <mat-label>Valor de venda</mat-label>
+          <input
+            matInput
+            type="number"
+            placeholder="2.999"
+            [formControl]="valorDeVenda"
+          />
+        </div>
+        <div>
+          <mat-label>Valor de compra</mat-label>
+          <input
+            matInput
+            type="number"
+            placeholder="3.999"
+            [formControl]="valorDeCompra"
+          />
+        </div>
+        <div>
+          <mat-label>Unidade de medida</mat-label>
+          <input
+            matInput
+            placeholder="R$ / litro"
+            [formControl]="unidadeDeMedida"
+          />
+        </div>
+        <div>
+          <mat-label>Bandeira</mat-label>
+          <input matInput placeholder="PETROBRAS SA" [formControl]="bandeira" />
+        </div>
+        <input mat-button type="submit" color="primary" />
+      </form>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="card-options">
+    <mat-card-header>
+      <mat-card-title>Historico por Sigla da regiao</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-label>Sigla da regiao</mat-label>
+      <mat-select [(value)]="sigla" class="sigla">
+        <mat-option value="CO">CO</mat-option>
+        <mat-option value="NE">NE</mat-option>
+        <mat-option value="N">N</mat-option>
+        <mat-option value="SE">SE</mat-option>
+        <mat-option value="S">S</mat-option>
+      </mat-select>
+      <button mat-mat-button color="primary" (click)="listaRegiaoPorSigla()">
+        Buscar
+      </button>
+      <div>
+        <table
+          mat-table
+          [dataSource]="historicoPorSigla"
+          class="mat-elevation-z8"
+        >
+          <ng-container matColumnDef="siglaRegiao">
+            <th mat-header-cell *matHeaderCellDef>Sigla Regiao</th>
+            <td mat-cell *matCellDef="let historico">
+              {{historico.siglaRegiao}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="siglaEstado">
+            <th mat-header-cell *matHeaderCellDef>Sigla Estado</th>
+            <td mat-cell *matCellDef="let historico">
+              {{historico.siglaEstado}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="municipio">
+            <th mat-header-cell *matHeaderCellDef>Municipio</th>
+            <td mat-cell *matCellDef="let historico">
+              {{historico.municipio}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="nomeRevenda">
+            <th mat-header-cell *matHeaderCellDef>Nome revenda</th>
+            <td mat-cell *matCellDef="let historico">
+              {{historico.nomeRevenda}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="CNPJ">
+            <th mat-header-cell *matHeaderCellDef>CNPJ</th>
+            <td mat-cell *matCellDef="let historico">{{historico.CNPJ}}</td>
+          </ng-container>
+          <ng-container matColumnDef="produto">
+            <th mat-header-cell *matHeaderCellDef>Produto</th>
+            <td mat-cell *matCellDef="let historico">{{historico.produto}}</td>
+          </ng-container>
+          <ng-container matColumnDef="dataDaColeta">
+            <th mat-header-cell *matHeaderCellDef>Data da coleta</th>
+            <td mat-cell *matCellDef="let historico">
+              {{historico.dataDaColeta}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="valorDeVenda">
+            <th mat-header-cell *matHeaderCellDef>Valor de venda</th>
+            <td mat-cell *matCellDef="let historico">
+              {{historico.valorDeVenda}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="valorDeCompra">
+            <th mat-header-cell *matHeaderCellDef>Valor de compra</th>
+            <td mat-cell *matCellDef="let historico">
+              {{historico.valorDeCompra}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="unidadeDeMedida">
+            <th mat-header-cell *matHeaderCellDef>Unidade de medida</th>
+            <td mat-cell *matCellDef="let historico">
+              {{historico.unidadeDeMedida}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="bandeira">
+            <th mat-header-cell *matHeaderCellDef>Bandeira</th>
+            <td mat-cell *matCellDef="let historico">{{historico.bandeira}}</td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="historicoColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: historicoColumns;"></tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="card-options">
+    <mat-card-header>
+      <mat-card-title>List historico por distribuidora</mat-card-title>
+      <button mat-button color="primary" (click)="refresh()">
+        Atualiza distribuidoras
+      </button>
+    </mat-card-header>
+    <mat-card-content>
+      <div>
+        <mat-select
+          [(ngModel)]="distribuidora"
+          name="distribuidora"
+          class="distribuidora"
+        >
+          <mat-option
+            *ngFor="let distribuidora of distribuidoras"
+            [value]="distribuidora"
+            >{{distribuidora}}</mat-option
+          >
+        </mat-select>
+      </div>
+      <div>
+        <button
+          mat-button
+          color="primary"
+          (click)="listaHistoricoPorDistribuidora()"
+        >
+          Buscar historico
+        </button>
+      </div>
+      <div>
+        <table
+          mat-table
+          [dataSource]="historicoPorSigla"
+          class="mat-elevation-z8"
+        >
+          <ng-container matColumnDef="siglaRegiao">
+            <th mat-header-cell *matHeaderCellDef>Sigla Regiao</th>
+            <td mat-cell *matCellDef="let historico">
+              {{historico.siglaRegiao}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="siglaEstado">
+            <th mat-header-cell *matHeaderCellDef>Sigla Estado</th>
+            <td mat-cell *matCellDef="let historico">
+              {{historico.siglaEstado}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="municipio">
+            <th mat-header-cell *matHeaderCellDef>Municipio</th>
+            <td mat-cell *matCellDef="let historico">
+              {{historico.municipio}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="nomeRevenda">
+            <th mat-header-cell *matHeaderCellDef>Nome revenda</th>
+            <td mat-cell *matCellDef="let historico">
+              {{historico.nomeRevenda}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="CNPJ">
+            <th mat-header-cell *matHeaderCellDef>CNPJ</th>
+            <td mat-cell *matCellDef="let historico">{{historico.CNPJ}}</td>
+          </ng-container>
+          <ng-container matColumnDef="produto">
+            <th mat-header-cell *matHeaderCellDef>Produto</th>
+            <td mat-cell *matCellDef="let historico">{{historico.produto}}</td>
+          </ng-container>
+          <ng-container matColumnDef="dataDaColeta">
+            <th mat-header-cell *matHeaderCellDef>Data da coleta</th>
+            <td mat-cell *matCellDef="let historico">
+              {{historico.dataDaColeta}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="valorDeVenda">
+            <th mat-header-cell *matHeaderCellDef>Valor de venda</th>
+            <td mat-cell *matCellDef="let historico">
+              {{historico.valorDeVenda}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="valorDeCompra">
+            <th mat-header-cell *matHeaderCellDef>Valor de compra</th>
+            <td mat-cell *matCellDef="let historico">
+              {{historico.valorDeCompra}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="unidadeDeMedida">
+            <th mat-header-cell *matHeaderCellDef>Unidade de medida</th>
+            <td mat-cell *matCellDef="let historico">
+              {{historico.unidadeDeMedida}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="bandeira">
+            <th mat-header-cell *matHeaderCellDef>Bandeira</th>
+            <td mat-cell *matCellDef="let historico">{{historico.bandeira}}</td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="historicoColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: historicoColumns;"></tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="card-options">
+    <mat-card-header>
+      <mat-card-title>
+        Lista historico por data de coleta
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div>
+        <input matInput type="date" [(ngModel)]="dataDaColetaInput" />
+      </div>
+      <div>
+        <button mat-button (click)="onDataColetaInputSubmit()">
+          Buscar por data
+        </button>
+      </div>
+      <div>
+        <table
+          mat-table
+          [dataSource]="historicoPorDataDaColeta"
+          class="mat-elevation-z8"
+        >
+          <ng-container matColumnDef="siglaRegiao">
+            <th mat-header-cell *matHeaderCellDef>Sigla Regiao</th>
+            <td mat-cell *matCellDef="let historico">
+              {{historico.siglaRegiao}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="siglaEstado">
+            <th mat-header-cell *matHeaderCellDef>Sigla Estado</th>
+            <td mat-cell *matCellDef="let historico">
+              {{historico.siglaEstado}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="municipio">
+            <th mat-header-cell *matHeaderCellDef>Municipio</th>
+            <td mat-cell *matCellDef="let historico">
+              {{historico.municipio}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="nomeRevenda">
+            <th mat-header-cell *matHeaderCellDef>Nome revenda</th>
+            <td mat-cell *matCellDef="let historico">
+              {{historico.nomeRevenda}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="CNPJ">
+            <th mat-header-cell *matHeaderCellDef>CNPJ</th>
+            <td mat-cell *matCellDef="let historico">{{historico.CNPJ}}</td>
+          </ng-container>
+          <ng-container matColumnDef="produto">
+            <th mat-header-cell *matHeaderCellDef>Produto</th>
+            <td mat-cell *matCellDef="let historico">{{historico.produto}}</td>
+          </ng-container>
+          <ng-container matColumnDef="dataDaColeta">
+            <th mat-header-cell *matHeaderCellDef>Data da coleta</th>
+            <td mat-cell *matCellDef="let historico">
+              {{historico.dataDaColeta}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="valorDeVenda">
+            <th mat-header-cell *matHeaderCellDef>Valor de venda</th>
+            <td mat-cell *matCellDef="let historico">
+              {{historico.valorDeVenda}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="valorDeCompra">
+            <th mat-header-cell *matHeaderCellDef>Valor de compra</th>
+            <td mat-cell *matCellDef="let historico">
+              {{historico.valorDeCompra}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="unidadeDeMedida">
+            <th mat-header-cell *matHeaderCellDef>Unidade de medida</th>
+            <td mat-cell *matCellDef="let historico">
+              {{historico.unidadeDeMedida}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="bandeira">
+            <th mat-header-cell *matHeaderCellDef>Bandeira</th>
+            <td mat-cell *matCellDef="let historico">{{historico.bandeira}}</td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="historicoColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: historicoColumns;"></tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="card-options">
+    <mat-card-header>
+      <mat-card-title>
+        Lista media por municipio
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div>
+        <button mat-button (click)="buscaMediasPorMunicipio()">
+          Buscar medias por municipio
+        </button>
+      </div>
+      <div>
+        <table
+          mat-table
+          [dataSource]="mediaPorMunicipio"
+          class="mat-elevation-z8"
+        >
+          <ng-container matColumnDef="municipio">
+            <th mat-header-cell *matHeaderCellDef>Municipio</th>
+            <td mat-cell *matCellDef="let municipio">{{municipio.municipio}}</td>
+          </ng-container>
+          <ng-container matColumnDef="produto">
+              <th mat-header-cell *matHeaderCellDef>Produto</th>
+              <td mat-cell *matCellDef="let municipio">{{municipio.produto}}</td>
+          </ng-container>
+          <ng-container matColumnDef="mediaVenda">
+              <th mat-header-cell *matHeaderCellDef>Media de venda</th>
+              <td mat-cell *matCellDef="let municipio">{{municipio.mediaVenda}}</td>
+          </ng-container>
+          <ng-container matColumnDef="mediaCompra">
+              <th mat-header-cell *matHeaderCellDef>Media de compra</th>
+              <td mat-cell *matCellDef="let municipio">{{municipio.mediaCompra}}</td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="mediaPorMunicipioColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: mediaPorMunicipioColumns;"></tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="card-options">
+    <mat-card-header>
+      <mat-card-title>
+        Lista media por bandeira
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div>
+        <button mat-button (click)="buscaMediaPorBandeira()">
+          Buscar medias por bandeira
+        </button>
+      </div>
+      <div>
+        <table
+          mat-table
+          [dataSource]="mediaPorBandeira"
+          class="mat-elevation-z8"
+        >
+          <ng-container matColumnDef="bandeira">
+              <th mat-header-cell *matHeaderCellDef>Bandeira</th>
+              <td mat-cell *matCellDef="let bandeira">{{bandeira.bandeira}}</td>
+          </ng-container>
+          <ng-container matColumnDef="mediaVenda">
+              <th mat-header-cell *matHeaderCellDef>Media de venda</th>
+              <td mat-cell *matCellDef="let bandeira">{{bandeira.mediaVenda}}</td>
+          </ng-container>
+          <ng-container matColumnDef="mediaCompra">
+              <th mat-header-cell *matHeaderCellDef>Media de compra</th>
+              <td mat-cell *matCellDef="let bandeira">{{bandeira.mediaCompra}}</td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="mediaPorBandeiraColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: mediaPorBandeiraColumns;"></tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
