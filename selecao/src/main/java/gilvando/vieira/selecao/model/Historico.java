@@ -2,13 +2,19 @@ package gilvando.vieira.selecao.model;
 
 import com.opencsv.bean.CsvBindByName;
 
-import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
 
 public class Historico {
 
+
+    @Max(value = 2, message = "Região com dois caracteres. Ex: CO <- Centro Oeste")
     @CsvBindByName(column = "Região - Sigla", required = false)
     private String siglaRegiao;
     @CsvBindByName(column = "Estado - Sigla", required = false)
+    @Max(value = 2, message = "Estado com duas letras. Ex: DF <- Distrito Federal")
     private String siglaEstado;
     @CsvBindByName(column = "Município", required = false)
     private String municipio;
@@ -20,9 +26,13 @@ public class Historico {
     private String produto;
     @CsvBindByName(column = "Data da Coleta", required = false)
     private String dataDaColeta;
+
     @CsvBindByName(column = "Valor da Venda", required = false)
+    @NotNull(message = "Exemplo de valor: '2.999'")
     private String valorDeVenda;
+
     @CsvBindByName(column = "Valor de Compra", required = false)
+    @NotNull(message = "Exemplo de valor: '3.999'")
     private String valorDeCompra;
     @CsvBindByName(column = "Unidade de Medida", required = false)
     private String unidadeDeMedida;
