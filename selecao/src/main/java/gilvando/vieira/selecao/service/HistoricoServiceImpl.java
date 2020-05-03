@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -37,21 +38,30 @@ public class HistoricoServiceImpl implements HistoricoService {
 
     @Override
     public Historico novoDadoHistorico(Historico historico) {
-        //System.out.println(historico);
+        System.out.println(historico);
+        if (historico.getValorDeVenda() == null || historico.getValorDeVenda().isEmpty()) {
+            historico.setValorDeVenda("0.000");
+        }
+        if (historico.getValorDeCompra() == null || historico.getValorDeCompra().isEmpty()) {
+            historico.setValorDeCompra("0.000");
+        }
+
+        historico.setValorDeVenda(historico.getValorDeVenda().replace(",", "."));
+        historico.setValorDeCompra(historico.getValorDeCompra().replace(",", "."));
         Regiao regiao = regiaoRepository.findByMunicipioAndSiglaEstado(historico.getMunicipio(), historico.getSiglaEstado());
         if (regiao == null) {
             regiao = regiaoRepository.save(new Regiao(historico.getSiglaRegiao(), historico.getSiglaEstado(), historico.getMunicipio()));
         }
-        Revenda r = null;
+
         Revenda revenda = revendaRepository.findByCNPJ(historico.getCNPJ());
         if (revenda == null) {
-            r = new Revenda(historico.getNomeRevenda(), historico.getCNPJ());
-            r.setRegiao(regiao);
-            revendaRepository.save(r);
+            revenda = new Revenda(historico.getNomeRevenda(), historico.getCNPJ());
+            revenda.setRegiao(regiao);
+            revendaRepository.save(revenda);
         }
 
-        Transacao transacao = new Transacao(historico.getBandeira(), Double.valueOf(historico.getValorDeVenda()), Double.valueOf(historico.getValorDeCompra()), historico.getUnidadeDeMedida(), LocalDate.now(), historico.getProduto());
-        transacao.setRevenda(r);
+        Transacao transacao = new Transacao(historico.getBandeira(), Double.valueOf(historico.getValorDeVenda()), Double.valueOf(historico.getValorDeCompra()), historico.getUnidadeDeMedida(), LocalDate.parse(historico.getDataDaColeta(), DateTimeFormatter.ofPattern("dd/MM/yyyy")), historico.getProduto());
+        transacao.setRevenda(revenda);
         transacaoRepository.save(transacao);
         return historico;
     }
