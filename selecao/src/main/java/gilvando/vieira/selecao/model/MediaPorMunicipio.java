@@ -1,5 +1,7 @@
 package gilvando.vieira.selecao.model;
 
+import com.google.common.base.Objects;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -15,6 +17,21 @@ public class MediaPorMunicipio {
 
     private Double mediaCompra;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MediaPorMunicipio that = (MediaPorMunicipio) o;
+        return Objects.equal(municipio, that.municipio) &&
+                Objects.equal(produto, that.produto) &&
+                Objects.equal(mediaVenda, that.mediaVenda) &&
+                Objects.equal(mediaCompra, that.mediaCompra);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(municipio, produto, mediaVenda, mediaCompra);
+    }
 
     @Override
     public String toString() {
