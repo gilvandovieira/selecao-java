@@ -166,7 +166,7 @@
                             <outputDirectory>${project.build.directory}/classes/resources/</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>src/main/web/dist/web/</directory>
+                                    <directory>${project.basedir}/src/main/web/dist/web/</directory>
                                 </resource>
                             </resources>
                         </configuration>
