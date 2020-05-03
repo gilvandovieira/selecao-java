@@ -33,7 +33,6 @@ public class EstatisticaController {
 
     @GetMapping(path = "/media-bandeira", produces = "application/json")
     public List<MediaPorBandeira> getMediaPrecoPorBandeira(){
-
-        return null;
+        return estatisticaService.listaValorMedioPorBandeira();
     }
 }

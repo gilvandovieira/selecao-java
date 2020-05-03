@@ -16,9 +16,9 @@ public class RegiaoRepositoryCustomImpl implements RegiaoRepositoryCustom {
     public List<MediaPorMunicipio> getMediaPorMunicipio() {
         Query q = entityManager.createNativeQuery("SELECT DISTINCT r.municipio, t.produto, avg(t.valor_Compra) as media_Compra, avg(t.valor_Venda) as media_Venda " +
                 "from sel_Regiao r join sel_Revenda re on r.id = re.regiao_id join sel_Transacao t on re.id = t.revenda_id " +
-                        "where  t.valor_Compra is not null and t.valor_Venda is not null group by r.municipio, t.produto", MediaPorMunicipio.class);
+                        "group by r.municipio, t.produto order by r.municipio, t.produto", MediaPorMunicipio.class);
 
-        List<MediaPorMunicipio> mediaPorMunicipio = (List<MediaPorMunicipio>) q.getResultList().stream().distinct().collect(Collectors.toList());
+        List<MediaPorMunicipio> mediaPorMunicipio = (List<MediaPorMunicipio>) q.getResultList();
         return mediaPorMunicipio;
     }
 }

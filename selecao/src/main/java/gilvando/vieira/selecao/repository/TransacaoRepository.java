@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface TransacaoRepository extends CrudRepository<Transacao, Long> {
+public interface TransacaoRepository extends CrudRepository<Transacao, Long>, TransacaoRepositoryCustom {
 
     List<Transacao> findAllByDataDaColeta(LocalDate date);
 }

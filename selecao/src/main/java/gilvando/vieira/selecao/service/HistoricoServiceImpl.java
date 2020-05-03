@@ -114,11 +114,9 @@ public class HistoricoServiceImpl implements HistoricoService {
         List<Revenda> revendas = revendaRepository.findAllByNome(nome);
         List<Historico> historicos = new LinkedList<>();
 
-        for (Revenda revenda : revendas) {
-            for (Transacao transacao : revenda.getTransacoes()) {
-                appendHistorico(historicos, transacao);
-            }
-        }
+        revendas.stream().map(revenda -> revenda.getTransacoes()).forEach(transacaos -> transacaos.stream().forEach(transacao -> appendHistorico(historicos, transacao)));
+
+
         return historicos;
     }
 
@@ -127,9 +125,9 @@ public class HistoricoServiceImpl implements HistoricoService {
         List<Transacao> transacoes = transacaoRepository.findAllByDataDaColeta(date);
         List<Historico> historicos = new LinkedList<>();
 
-        for (Transacao transacao : transacoes) {
-            appendHistorico(historicos, transacao);
-        }
+        transacoes.stream().forEach(transacao -> appendHistorico(historicos, transacao));
+
+
         return historicos;
     }
 
